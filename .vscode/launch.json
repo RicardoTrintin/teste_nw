@@ -5,12 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Arquivo Atual",
+            "name": "RUN importacao",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "env": {
+                "PARAMETRO_EXECUCAO": "CONTROLA_EXEUCAO_IMPORTACAO_DADOS",
+                "INTEGRADOR_SETTINGS": "settings.production",
+                "TEMPO_ROTINA": "0",
+                "SLEEP_ROTINA": "0"
+            }
+        },
+        {
+            "name": "RUN importacao_dado",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PARAMETRO_EXECUCAO": "CONTROLA_EXEUCAO_IMPORTACAO_DADOS",
+                "TEMPO_ROTINA": "0",
+                "SLEEP_ROTINA": "0"
+            }
         }
     ]
 }
