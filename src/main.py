@@ -1,7 +1,13 @@
 # import unidecode
 from utils.decorators import loop_rotina
-from utils.util import Util
-from execucao_script import Executar
+import os
+
+tipo_execucao = os.environ.get('PARAMETRO_EXECUCAO', None)
+
+if tipo_execucao == "CONTROLA_EXEUCAO_HIGIENIZACAO":
+    from features.higienizar_dados.main import Executar
+elif tipo_execucao == "CONTROLA_EXEUCAO_IMPORTACAO_DADOS":
+    from features.importar_dados.main import Executar
 
 
 @loop_rotina()

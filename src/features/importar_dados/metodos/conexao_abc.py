@@ -1,5 +1,5 @@
 from abc import ABC
-from config.conexoes import Conexao
+from features.importar_dados.config.conexoes import Conexao
 
 import psycopg2
 

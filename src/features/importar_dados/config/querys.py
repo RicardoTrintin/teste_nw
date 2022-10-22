@@ -6,3 +6,10 @@ def teste(dados):
     return f"""
         {dados}
     """
+
+
+@execute_query
+def limpa_dado_tabela():
+    return f"""
+        DELETE FROM teste
+    """

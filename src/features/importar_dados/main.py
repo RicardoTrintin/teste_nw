@@ -1,5 +1,5 @@
 import shutil
-from metodos.base_dados import BaseDados
+from features.importar_dados.metodos.base_dados import BaseDados
 import os
 
 
@@ -40,9 +40,16 @@ class Executar:
     def move_arquivo_para_importados(self):
         shutil.move("src\\arquivos\\arquivo_para_importar\\base_teste.txt", "src\\arquivos\\arquivos_importados\\base_teste.txt")
 
+    def limpa_dado_tabela(self):
+        self.conexao_banco.estabelecer_conexao()
+        self.conexao_banco.limpa_dado_tabela()
+        self.conexao_banco.commitar_alteracoes()
+        self.conexao_banco.fechar_conexao()
+
     def run_script(self):
         string_insert = "INSERT INTO teste (teste) VALUES"
         dados_arquivo = self.captura_dados_arquivo()
+        self.limpa_dado_tabela()
         for index, dado in enumerate(dados_arquivo):
             if index != 0:
                 dado = self.map_campos(dado.split())
