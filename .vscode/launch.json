@@ -12,10 +12,13 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "env": {
-                "PARAMETRO_EXECUCAO": "CONTROLA_EXEUCAO_IMPORTACAO_DADOS",
                 "INTEGRADOR_SETTINGS": "settings.production",
                 "TEMPO_ROTINA": "0",
-                "SLEEP_ROTINA": "0"
+                "SLEEP_ROTINA": "0",
+                "CAMINHO_ARQUIVO_BASE_DEFAULT": "src\\features\\arquivos\\arquivo_para_importar\\base_teste.txts",
+                "CAMINHO_ARQUIVO_IMPORTADOS_DEFAULT": "src\\features\\arquivos\\arquivos_importados\\base_teste.txts",
+                "CAMINHO_ARQUIVO_BASE": "src\\features\\importar_dados\\arquivos\\arquivo_para_importar\\base_teste.txt",
+                "CAMINHO_ARQUIVO_IMPORTADOS_BASE": "src\\features\\importar_dados\\arquivos\\arquivos_importados\\base_teste.txt",
             }
         },
         {

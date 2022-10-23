@@ -2,7 +2,7 @@ from utils.decorators import execute_query, busca_todos_itens_query, busca_um_it
 
 
 @execute_query
-def teste(dados):
+def insere_dados_na_tabela(dados):
     return f"""
         {dados}
     """
@@ -11,5 +11,5 @@ def teste(dados):
 @execute_query
 def limpa_dado_tabela():
     return f"""
-        DELETE FROM teste
+        DELETE FROM resumo_pedidos_cliente
     """

@@ -6,7 +6,7 @@ class BaseDados(ConexaoABC):
 
     def insere_dados_na_tabela(self, *args, **kwargs):
         with self.banco_integracao.cursor() as cursor:
-            return querys.teste(cursor, *args, **kwargs)
+            return querys.insere_dados_na_tabela(cursor, *args, **kwargs)
 
     def limpa_dado_tabela(self, *args, **kwargs):
         with self.banco_integracao.cursor() as cursor:

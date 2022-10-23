@@ -1,7 +1,7 @@
 DATABASE = {
     "host": 'host.docker.internal',
     "port": "49154",
-    # "database": 'postgres',
+    "database": 'neoway',
     "user": 'postgres',
     "password": 'postgrespw'
 }
