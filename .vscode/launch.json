@@ -19,6 +19,11 @@
                 "CAMINHO_ARQUIVO_IMPORTADOS_DEFAULT": "src\\features\\arquivos\\arquivos_importados\\base_teste.txts",
                 "CAMINHO_ARQUIVO_BASE": "src\\features\\importar_dados\\arquivos\\arquivo_para_importar\\base_teste.txt",
                 "CAMINHO_ARQUIVO_IMPORTADOS_BASE": "src\\features\\importar_dados\\arquivos\\arquivos_importados\\base_teste.txt",
+                "HOST_DATABASE": "host.docker.internal",
+                "PORT_DATABASE": "49154",
+                "DATABASE": "postgres",
+                "USER_DATABASE": "postgres",
+                "PASS_DATABASE": "postgrespw",
             }
         },
         {

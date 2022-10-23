@@ -4,7 +4,6 @@ import shutil
 import os
 
 
-
 class Executar:
 
     def __init__(self) -> None:
@@ -17,12 +16,12 @@ class Executar:
         # self.caminho_arquivo_importados = "features/importar_dados/arquivos/arquivos_importados/base_teste.txt"
         if not os.path.exists(self.caminho_arquivo_base):
             raise FileNotFoundError(
-                f"Arquivo não encontrado no caminho {self.caminho_arquivo_base}, como entrada, nas pastas default ou no caminho especificado pelo usuario")
+                f"Arquivo não encontrado no caminho, como entrada, nas pastas default ou no caminho especificado pelo usuario")
 
     # def move_arquivo_para_importados(self):
     #     shutil.move(self.caminho_arquivo_base, self.caminho_arquivo_importados)
 
-    def inser_dados_na_base(self, dados):
+    def insere_dados_na_base(self, dados):
         self.conexao_banco.estabelecer_conexao()
         self.conexao_banco.insere_dados_na_tabela(dados)
         self.conexao_banco.commitar_alteracoes()
@@ -127,6 +126,6 @@ class Executar:
                 else:
                     print(f"cpf ou cnpj não é valido: {dado.get('cpf')}")
 
-        self.inser_dados_na_base(string_insert)
+        self.insere_dados_na_base(string_insert)
         # self.move_arquivo_para_importados()
         print("Importação dos dados do arquivo finalizada com sucesso")
