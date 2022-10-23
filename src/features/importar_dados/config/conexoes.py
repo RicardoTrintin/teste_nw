@@ -1,6 +1,5 @@
-import psycopg2
-
 from settings import DATABASE
+import psycopg2
 
 
 class Conexao:

@@ -1,4 +1,4 @@
-from utils.decorators import execute_query, busca_todos_itens_query, busca_um_item_query
+from utils.decorators import execute_query
 
 
 @execute_query

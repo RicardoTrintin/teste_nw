@@ -1,29 +1,26 @@
-import shutil
-from turtle import st
 from features.importar_dados.metodos.base_dados import BaseDados
-import os
-import re
-from utils.util import Util
 from validate_docbr import CPF, CNPJ
+import shutil
+import os
+
 
 
 class Executar:
 
     def __init__(self) -> None:
         self.conexao_banco = BaseDados()
-        self.metodos_uteis = Util()
         self.cpf = CPF()
         self.cnpj = CNPJ()
-        # self.caminho_arquivo_base = os.environ.get("CAMINHO_ARQUIVO_BASE", "CAMINHO_ARQUIVO_BASE_DEFAULT")
-        self.caminho_arquivo_base = "features/importar_dados/arquivos/arquivo_para_importar/base_teste.txt"
+        self.caminho_arquivo_base = os.environ.get("CAMINHO_ARQUIVO", "features/importar_dados/arquivos/base_teste.txt")
+        self.caminho_arquivo_base = "features/importar_dados/arquivos/base_teste.txt"
         # self.caminho_arquivo_importados = os.environ.get("CAMINHO_ARQUIVO_IMPORTADOS_BASE", "CAMINHO_ARQUIVO_IMPORTADOS_DEFAULT")
-        self.caminho_arquivo_importados = "features/importar_dados/arquivos/arquivos_importados/base_teste.txt"
+        # self.caminho_arquivo_importados = "features/importar_dados/arquivos/arquivos_importados/base_teste.txt"
         if not os.path.exists(self.caminho_arquivo_base):
             raise FileNotFoundError(
                 f"Arquivo não encontrado no caminho {self.caminho_arquivo_base}, como entrada, nas pastas default ou no caminho especificado pelo usuario")
 
-    def move_arquivo_para_importados(self):
-        shutil.move(self.caminho_arquivo_base, self.caminho_arquivo_importados)
+    # def move_arquivo_para_importados(self):
+    #     shutil.move(self.caminho_arquivo_base, self.caminho_arquivo_importados)
 
     def inser_dados_na_base(self, dados):
         self.conexao_banco.estabelecer_conexao()
@@ -40,10 +37,7 @@ class Executar:
 
     def identifica_dado_incompleto(self, dado):
         valida_incompleto = True
-        if dado.get("cnpj"):
-            dado["private"] = 1
-        else:
-            dado["private"] = 0
+        # identifica dados incompletos do cliente
         if dado.get("data_ultima_compra") and \
             dado.get("ticket_medio") and \
                 dado.get("ticket_ultima_compra") and \
@@ -54,12 +48,26 @@ class Executar:
             dado['incompleto'] = 1
         return dado
 
+    def identifica_cliente_privado(self, dado):
+        # valida cnpj para identificar cliente juridico
+        if dado.get("cnpj"):
+            dado["private"] = 1
+        else:
+            dado["private"] = 0
+        return dado
+
     def valida_cnpj_loja(self, dado):
         if dado.get("loja_frequente") and dado.get("loja_ultima_compra"):
             if not self.cnpj.validate(dado.get("loja_frequente")):
                 dado['loja_frequente'] = ''
             if not self.cnpj.validate("loja_ultima_compra"):
                 dado['loja_ultima_compra'] = ''
+        return dado
+
+    def higieniza_dados_cliente(self, dado):
+        dado = self.valida_cnpj_loja(dado)
+        dado = self.identifica_cliente_privado(dado)
+        dado = self.identifica_dado_incompleto(dado)
         return dado
 
     def valida_cpf_ou_cnpj(self, dado):
@@ -106,18 +114,19 @@ class Executar:
         dados_arquivo = self.captura_dados_arquivo()
         self.limpa_dado_tabela()
         separador_values = ","
+
         for index, dado in enumerate(dados_arquivo):
             if index != 0:
                 dado = self.map_campos(dado.split())
                 identificador_cliente_valido, dado = self.valida_cpf_ou_cnpj(dado)
                 if identificador_cliente_valido:
+                    dado = self.higieniza_dados_cliente(dado)
                     if index == (len(dados_arquivo) - 1):
                         separador_values = ";"
-                    dado = self.valida_cnpj_loja(dado)
-                    dado = self.identifica_dado_incompleto(dado)
                     string_insert = self.incrementa_sctring_insert(dado, string_insert, separador_values)
                 else:
                     print(f"cpf ou cnpj não é valido: {dado.get('cpf')}")
+
         self.inser_dados_na_base(string_insert)
-        self.move_arquivo_para_importados()
+        # self.move_arquivo_para_importados()
         print("Importação dos dados do arquivo finalizada com sucesso")

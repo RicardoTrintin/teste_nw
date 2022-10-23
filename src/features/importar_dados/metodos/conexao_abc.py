@@ -1,6 +1,5 @@
-from abc import ABC
 from features.importar_dados.config.conexoes import Conexao
-
+from abc import ABC
 import psycopg2
 
 

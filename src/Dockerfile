@@ -4,14 +4,17 @@ FROM python:3
 ENV LANG C.UTF-8
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH "${PYTONPATH}:/"
-ENV CAMINHO_ARQUIVO_BASE "src\\features\\importar_dados\\arquivos\\arquivo_para_importar\\base_teste.txt"
-ENV CAMINHO_ARQUIVO_IMPORTADOS_BASE "src\\features\\importar_dados\\arquivos\\arquivos_importados\\base_teste.txt"
+ENV CAMINHO_ARQUIVO "features/importar_dados/arquivos/base_teste.txt"
+# ENV CAMINHO_ARQUIVO_IMPORTADOS_BASE "src\\features\\importar_dados\\arquivos\\arquivos_importados\\base_teste.txt"
 ENV INTEGRADOR_SETTINGS "settings.production"
+ENV HOST_DATABASE "host.docker.internal"
+ENV PORT_DATABASE "5439"
+ENV DATABASE "postgres"
+ENV USER_DATABASE "postgres"
+ENV PASS_DATABASE "postgrespwneoway"
 
 COPY . /src
-RUN pip install psycopg2 \
-    && pip install Unidecode \
-    && pip install validate_docbr
+RUN pip install -r src/requirements.txt
 
 WORKDIR /src
 CMD python main.py

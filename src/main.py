@@ -1,4 +1,3 @@
-# import unidecode
 from features.importar_dados.main import Executar
 from utils.exceptions import ImportDataException, QueryException, VariableAmbienteException
 
