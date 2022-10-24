@@ -7,16 +7,8 @@ def insere_dados_na_tabela(dados):
         {dados}
     """
 
-
 @execute_query
-def limpa_dado_tabela():
-    return f"""
-        DELETE FROM resumo_pedidos_cliente
-    """
-
-
-@execute_query
-def create_table_resumo_pedidos_cliente():
+def cria_tabela_resumo_pedidos_cliente():
     return """
         CREATE TABLE resumo_pedidos_cliente (
             id SERIAL,
@@ -35,7 +27,7 @@ def create_table_resumo_pedidos_cliente():
     """
 
 @execute_query
-def create_indices_table_resumo_pedidos_cliente():
+def cria_indices_tabela_resumo_pedidos_cliente():
     return """
         CREATE INDEX cpf_index on resumo_pedidos_cliente (cpf);
         CREATE INDEX cnpj_index on resumo_pedidos_cliente (cnpj);

@@ -17,8 +17,5 @@ class Conexao:
     def commit_transacoes(self, conexao):
         return conexao.commit()
 
-    def rollback_transacoes(self, conexao):
-        return conexao.rollback()
-
     def close_connection(self, conexao):
         return conexao.close()

@@ -17,6 +17,3 @@ class ConexaoABC(ABC):
 
     def commitar_alteracoes(self):
         self.conexao.commit_transacoes(self.banco_integracao)
-
-    def rollback(self):
-        self.conexao.rollback_transacoes(self.banco_integracao)

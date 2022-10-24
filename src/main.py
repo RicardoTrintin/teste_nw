@@ -6,7 +6,7 @@ from utils.exceptions import ImportDataException, QueryException, VariableAmbien
 def executar_rotina():
     try:
         EstruturaBanco().criar_estrutura()
-        Executar().run_script()
+        Executar().roda_script()
     except ImportDataException as e:
         raise ImportDataException(e)
     except QueryException as e:

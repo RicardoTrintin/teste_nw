@@ -1,6 +1,5 @@
 from features.importar_dados.metodos.base_dados import BaseDados
 from validate_docbr import CPF, CNPJ
-import shutil
 import os
 
 
@@ -11,15 +10,9 @@ class Executar:
         self.cpf = CPF()
         self.cnpj = CNPJ()
         self.caminho_arquivo_base = os.environ.get("CAMINHO_ARQUIVO", "features/importar_dados/arquivos/base_teste.txt")
-        self.caminho_arquivo_base = "features/importar_dados/arquivos/base_teste.txt"
-        # self.caminho_arquivo_importados = os.environ.get("CAMINHO_ARQUIVO_IMPORTADOS_BASE", "CAMINHO_ARQUIVO_IMPORTADOS_DEFAULT")
-        # self.caminho_arquivo_importados = "features/importar_dados/arquivos/arquivos_importados/base_teste.txt"
         if not os.path.exists(self.caminho_arquivo_base):
             raise FileNotFoundError(
-                f"Arquivo não encontrado no caminho, como entrada, nas pastas default ou no caminho especificado pelo usuario")
-
-    # def move_arquivo_para_importados(self):
-    #     shutil.move(self.caminho_arquivo_base, self.caminho_arquivo_importados)
+                f"Arquivo não encontrado no caminho de entrada {self.caminho_arquivo_base}")
 
     def insere_dados_na_base(self, dados):
         self.conexao_banco.estabelecer_conexao()
@@ -107,7 +100,7 @@ class Executar:
         arquivo.close()
         return dados_arquivo
 
-    def run_script(self):
+    def roda_script(self):
         string_insert = """INSERT INTO resumo_pedidos_cliente (cpf, cnpj, private, incompleto, data_ultima_compra, ticket_medio,
             ticket_ultima_compra, loja_frequente, loja_ultima_compra, created_at, updated_at) VALUES"""
         dados_arquivo = self.captura_dados_arquivo()
@@ -127,5 +120,4 @@ class Executar:
                     print(f"cpf ou cnpj não é valido: {dado.get('cpf')}")
 
         self.insere_dados_na_base(string_insert)
-        # self.move_arquivo_para_importados()
         print("Importação dos dados do arquivo finalizada com sucesso")
