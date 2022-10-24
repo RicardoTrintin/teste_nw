@@ -31,7 +31,7 @@ Então...
 
 ## Estrutura do banco de dados
 
-Como a lágica foi montada em cima dos dados, acreditando que eles são de um resumo de pedido do cliente, a estrutura do banco ficou da seguinte maneira.
+Como a lágica foi montada em cima dos dados, acreditando que eles são de um resumo de pedido do cliente, a estrutura do banco ficou da seguinte maneira. Mas toda essa estrutura abaixo não é necessária rodar, o próprio script já se encarrega de nos criar a estrutura para importaromos os dados.
 
 * Tabela de resumo do pedido com informações que podem ser utilizadas para algum fim de relatório de BI por exemplo.
 ```
@@ -92,7 +92,7 @@ Com ele instalado, rodar os seguintes comandos:
 	- Seus parâmetros para conexão após subir o container:
 
 		```
-		host: local
+		host: host.docker.internal
 		port: 5432
 		database: postgres
 		user: postgres
@@ -136,12 +136,11 @@ Com ele instalado, rodar os seguintes comandos:
 		&nbsp;
 		&nbsp;
 
-	- E Após gerar a imgaem do script basta executar um run:
+	- E após gerar a imgaem do script basta executar um run:
 	&nbsp;
 
 		```docker run --rm --name importador_dados_container importador_dados```
-	&nbsp;
-	&nbsp;
+&nbsp;
 
 # Rodar projeto local
 Após criar o ambiente virtual você deve instalar as dependências em seu ambiente virtual:
