@@ -70,6 +70,6 @@ Caso modifique esta informação, também é necessário muda-la no arquivo Dock
 PORT_DATABASE "ATRIBUA A PORTA QUE COLOCOU NO COMANDO PARA SUBIR O POSTGRES"
 ```
 
-#####Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres no arquivo executável também necessitará de alterações.
+**Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres no arquivo executável também necessitará de alterações.**
 
 Então ao final da execução, terá uma mensagem de que a **Importação dos dados do arquivo foi finalizada com sucesso!**
