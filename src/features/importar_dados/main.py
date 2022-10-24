@@ -88,12 +88,6 @@ class Executar:
         }
         return dado_mapeado
 
-    def limpa_dado_tabela(self):
-        self.conexao_banco.estabelecer_conexao()
-        self.conexao_banco.limpa_dado_tabela()
-        self.conexao_banco.commitar_alteracoes()
-        self.conexao_banco.fechar_conexao()
-
     def captura_dados_arquivo(self):
         with open(self.caminho_arquivo_base, "r", encoding="utf-8") as arquivo:
             dados_arquivo = arquivo.readlines()
@@ -101,10 +95,9 @@ class Executar:
         return dados_arquivo
 
     def roda_script(self):
-        string_insert = """INSERT INTO resumo_pedidos_cliente (cpf, cnpj, private, incompleto, data_ultima_compra, ticket_medio,
+        string_insert = """INSERT INTO resumo_pedido_cliente (cpf, cnpj, private, incompleto, data_ultima_compra, ticket_medio,
             ticket_ultima_compra, loja_frequente, loja_ultima_compra, created_at, updated_at) VALUES"""
         dados_arquivo = self.captura_dados_arquivo()
-        self.limpa_dado_tabela()
         separador_values = ","
 
         for index, dado in enumerate(dados_arquivo):

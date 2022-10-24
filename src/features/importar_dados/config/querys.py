@@ -7,10 +7,11 @@ def insere_dados_na_tabela(dados):
         {dados}
     """
 
+
 @execute_query
-def cria_tabela_resumo_pedidos_cliente():
+def cria_tabela_resumo_pedido_cliente():
     return """
-        CREATE TABLE resumo_pedidos_cliente (
+        CREATE TABLE resumo_pedido_cliente (
             id SERIAL,
             cpf varchar(15),
             cnpj VARCHAR(20),
@@ -26,12 +27,13 @@ def cria_tabela_resumo_pedidos_cliente():
         );
     """
 
+
 @execute_query
-def cria_indices_tabela_resumo_pedidos_cliente():
+def cria_indices_tabela_resumo_pedido_cliente():
     return """
-        CREATE INDEX cpf_index on resumo_pedidos_cliente (cpf);
-        CREATE INDEX cnpj_index on resumo_pedidos_cliente (cnpj);
-        CREATE INDEX data_ultima_compra_index on resumo_pedidos_cliente (data_ultima_compra);
-        CREATE INDEX loja_frequente_index on resumo_pedidos_cliente (loja_frequente);
-        CREATE INDEX loja_ultima_compra_index on resumo_pedidos_cliente (loja_ultima_compra);
+        CREATE INDEX cpf_index on resumo_pedido_cliente (cpf);
+        CREATE INDEX cnpj_index on resumo_pedido_cliente (cnpj);
+        CREATE INDEX data_ultima_compra_index on resumo_pedido_cliente (data_ultima_compra);
+        CREATE INDEX loja_frequente_index on resumo_pedido_cliente (loja_frequente);
+        CREATE INDEX loja_ultima_compra_index on resumo_pedido_cliente (loja_ultima_compra);
     """

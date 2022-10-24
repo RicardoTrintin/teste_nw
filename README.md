@@ -2,6 +2,7 @@
 
 ## Serviço
 Este serviço utiliza arquivo de texto para importar dados através de script python para um banco de dados relacional postgres.
+&nbsp;
 
 ## Regra de negócio
 
@@ -17,59 +18,121 @@ O serviço captura os dados do arquivo base_teste.txt e separa através dos segu
 - **LOJA_FREQUENTE**
 - **LOJA_ULTIMA_COMPRA**
 
-Com isso, o sistema entende como um resumo de dados de pedidos de cliente
+Com isso, o sistema entende como um resumo de dados de pedidos de cliente.
 
-Então....
+Então...
 - **Se a informação de CPF ou CNPJ nao forem válidas:**
     - O registro não será importado para o banco, pois são informações crusciais para identificação do cliente;
 - **Se o registro possui apenas CNPJ e não CPF:**
-    - O cliente é considerado como privado ou seja, um cliente juridico; 
+    - O cliente é considerado como privado ou seja, um cliente juridico;
 - **Se alguma informação do cliente como ticket médio, data da última compra e etc... não existe:**
     - O cliente é considearado como incompleto, mas é importado para base desta maneira.
+&nbsp;
+
+## Estrutura do banco de dados
+
+Como a lágica foi montada em cima dos dados, acreditando que eles são de um resumo de pedido do cliente, a estrutura do banco ficou da seguinte maneira.
+
+* Tabela de resumo do pedido com informações que podem ser utilizadas para algum fim de relatório de BI por exemplo.
+```
+CREATE TABLE resumo_pedido_cliente (
+	id SERIAL,
+	cpf varchar(15),
+	cnpj VARCHAR(20),
+	private integer,
+	incompleto integer,
+	data_ultima_compra DATE,
+	ticket_medio decimal,
+	ticket_ultima_compra decimal,
+	loja_frequente VARCHAR(20),
+	loja_ultima_compra VARCHAR,
+	created_at timestamp,
+	updated_at timestamp
+);
+```
+
+* E índices para uma melhor consulta pelo back-end.
+
+```
+CREATE INDEX cpf_index on resumo_pedido_cliente (cpf);
+CREATE INDEX cnpj_index on resumo_pedido_cliente (cnpj);
+CREATE INDEX data_ultima_compra_index on resumo_pedido_cliente (data_ultima_compra);
+CREATE INDEX loja_frequente_index on resumo_pedido_cliente (loja_frequente);
+CREATE INDEX loja_ultima_compra_index on resumo_pedido_cliente (loja_ultima_compra);
+```
+&nbsp;
 
 ## Como rodar o projeto
 
-Antes de proseguir, é preciso que o arquivo base_teste.txt esteja dentro do diretório **src/features/importar_dados/arquivos**
+Antes de proseguir, é preciso que o arquivo base_teste.txt esteja dentro do diretório **src/features/importar_dados/arquivos**.
 
 #### Obs:. Sem o arquivo não estiver neste local, após rodar os próximos passos, teremos um retorno de erro de que nao é possível importar os dados, pois o arquivo de texto como base não foi encontrado.**
 
 Também é necessário que o Docker esteja instalado em seu computador.
+&nbsp;
 
-- **Se estiver usando windows**
-    - Executar o arquivo execucao_projeto_windows.bat
-- **Se estiver usando Linux**
-    - Executar o arquivo execucao_projeto_linux.sh
+Com ele instalado, rodar os seguintes comandos:
+&nbsp;
 
-Este arquivo **bat** ou **sh**, irá subir um container com um banco postgres na sua máquina, onde será possível acessá-lo pelos seguintes parâmetros:
+- Passo 1:
+	- Este comando irá gerar e subir imagem e um container no docker do postgres, onde:
+		- Nome: ```postgres_neoway```
+		- Porta: ```parametro -p5432```
+		- Senha para acesso: ```-ePOSTGRES_PASSWORD=12345```
+	&nbsp;
+	- ```
+		docker run --name postgres_neoway -d -i -t -p5432:5432 -ePOSTGRES_PASSWORD=12345 postgres:latest
+		```
+	&nbsp;
+	- Seus parâmetros para conexão serão:
 
-```
-host: host.docker.internal
-port: 5432
-database: postgres
-user: postgres
-pass: 12345
-```
+		```
+		host: local
+		port: 5432
+		database: postgres
+		user: postgres
+		pass: 12345
+		```
+		&nbsp;
 
-Caso a porta criada por default pelo executável já esteja sendo utilizada em seu computador, é possível modificá-la no arquivo em que está executando pelo seguinte comando:
+		- Caso a porta criada por default pelo executável já esteja sendo utilizada em seu computador, é possível modificá-la no arquivo em que está executando pelo seguinte comando:
+		&nbsp;
 
-```
-docker run --name postgres_neoway -d -i -t -pAQUI_DEFINA_A_PORTA_DESEJADA:5432 -ePOSTGRES_PASSWORD=12345 postgres:latest
-```
+			```
+			docker run --name postgres_neoway -d -i -t -pAQUI_DEFINA_A_PORTA_DESEJADA:5432 -ePOSTGRES_PASSWORD=12345 postgres:latest
+			```
+		&nbsp;
+		&nbsp;
 
-Ou se preferir, pode rodar o seguinte comando:
+		- Ou se preferir, pode rodar o seguinte comando:
+		&nbsp;
 
-```
-docker system prune
-```
+			```
+			docker system prune
+			```
 
-#### Obs:. Este comando excluirá todas as imagens, networks e containers que não estão sendo utilizados em sua máquina, caso tenha algo dentro destes requisítos que não deseja excluir, não é recomendado executar este passo.
+		- #### Obs:. Este comando remova todos os contêineres, redes, imagens (tanto pendentes quanto não referenciados) não utilizados e, opcionalmente, volumes, caso tenha algo dentro destes requisítos que não deseja excluir, não é recomendado executar este passo.
+&nbsp;
 
-Caso modifique esta informação, também é necessário muda-la no arquivo Dockerfile:
+- Passo 2:
+	- Se posicione dentro da pasta src do projeto e rode o seguinte comando:
+	&nbsp;
 
-```
-PORT_DATABASE "ATRIBUA A PORTA QUE COLOCOU NO COMANDO PARA SUBIR O POSTGRES"
-```
+		```docker build -t importador_dados .```
+		&nbsp;
 
-**Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres no arquivo executável também necessitará de alterações.**
+		- Este comando irá gerar a imagem docker do script para execução com o nome ```importador_dados```
+	&nbsp;
+
+		- Caso modifique esta informação, também é necessário muda-la no arquivo Dockerfile:
+		&nbsp;
+
+			```
+			PORT_DATABASE "ATRIBUA A PORTA QUE COLOCOU NO COMANDO PARA SUBIR O POSTGRES"
+			```
+	&nbsp;
+
+* **Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres no arquivo executável também necessitará de alterações.**
+&nbsp;
 
 Então ao final da execução, terá uma mensagem de que a **Importação dos dados do arquivo foi finalizada com sucesso!**

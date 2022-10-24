@@ -8,10 +8,10 @@ class BaseDados(ConexaoABC):
         with self.banco_integracao.cursor() as cursor:
             return querys.insere_dados_na_tabela(cursor, *args, **kwargs)
 
-    def cria_tabela_resumo_pedidos_cliente(self, *args, **kwargs):
+    def cria_tabela_resumo_pedido_cliente(self, *args, **kwargs):
         with self.banco_integracao.cursor() as cursor:
-            return querys.cria_tabela_resumo_pedidos_cliente(cursor, *args, **kwargs)
+            return querys.cria_tabela_resumo_pedido_cliente(cursor, *args, **kwargs)
 
-    def cria_indices_tabela_resumo_pedidos_cliente(self, *args, **kwargs):
+    def cria_indices_tabela_resumo_pedido_cliente(self, *args, **kwargs):
         with self.banco_integracao.cursor() as cursor:
-            return querys.cria_indices_tabela_resumo_pedidos_cliente(cursor, *args, **kwargs)
+            return querys.cria_indices_tabela_resumo_pedido_cliente(cursor, *args, **kwargs)
