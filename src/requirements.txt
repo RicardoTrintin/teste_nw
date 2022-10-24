@@ -1,0 +1,4 @@
+psycopg2
+validate_docbr
+pytest
+pytest-cov

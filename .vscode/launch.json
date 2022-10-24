@@ -1,0 +1,43 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "RUN importacao",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "INTEGRADOR_SETTINGS": "settings.production",
+                "TEMPO_ROTINA": "0",
+                "SLEEP_ROTINA": "0",
+                "CAMINHO_ARQUIVO_BASE_DEFAULT": "src\\features\\arquivos\\arquivo_para_importar\\base_teste.txts",
+                "CAMINHO_ARQUIVO_IMPORTADOS_DEFAULT": "src\\features\\arquivos\\arquivos_importados\\base_teste.txts",
+                "CAMINHO_ARQUIVO_BASE": "src\\features\\importar_dados\\arquivos\\arquivo_para_importar\\base_teste.txt",
+                "CAMINHO_ARQUIVO_IMPORTADOS_BASE": "src\\features\\importar_dados\\arquivos\\arquivos_importados\\base_teste.txt",
+                "HOST_DATABASE": "host.docker.internal",
+                "PORT_DATABASE": "49154",
+                "DATABASE": "postgres",
+                "USER_DATABASE": "postgres",
+                "PASS_DATABASE": "postgrespw",
+            }
+        },
+        {
+            "name": "RUN importacao_dado",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "PARAMETRO_EXECUCAO": "CONTROLA_EXEUCAO_IMPORTACAO_DADOS",
+                "TEMPO_ROTINA": "0",
+                "SLEEP_ROTINA": "0"
+            }
+        }
+    ]
+}
