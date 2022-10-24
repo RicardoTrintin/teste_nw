@@ -64,11 +64,15 @@ CREATE INDEX loja_ultima_compra_index on resumo_pedido_cliente (loja_ultima_comp
 
 ## Como rodar o projeto
 
+#### Dependências
+
 Antes de proseguir, é preciso que o arquivo base_teste.txt esteja dentro do diretório **src/features/importar_dados/arquivos**.
 
 #### Obs:. Sem o arquivo não estiver neste local, após rodar os próximos passos, teremos um retorno de erro de que nao é possível importar os dados, pois o arquivo de texto como base não foi encontrado.**
+&nbsp;
 
 Também é necessário que o Docker esteja instalado em seu computador.
+1. [Instalar docker](https://docs.docker.com/install/)
 &nbsp;
 
 Com ele instalado, rodar os seguintes comandos:
@@ -80,11 +84,12 @@ Com ele instalado, rodar os seguintes comandos:
 		- Porta: ```parametro -p5432```
 		- Senha para acesso: ```-ePOSTGRES_PASSWORD=12345```
 	&nbsp;
-	- ```
+
+		```
 		docker run --name postgres_neoway -d -i -t -p5432:5432 -ePOSTGRES_PASSWORD=12345 postgres:latest
 		```
 	&nbsp;
-	- Seus parâmetros para conexão serão:
+	- Seus parâmetros para conexão após subir o container:
 
 		```
 		host: local
@@ -95,12 +100,7 @@ Com ele instalado, rodar os seguintes comandos:
 		```
 		&nbsp;
 
-		- Caso a porta criada por default pelo executável já esteja sendo utilizada em seu computador, é possível modificá-la no arquivo em que está executando pelo seguinte comando:
-		&nbsp;
-
-			```
-			docker run --name postgres_neoway -d -i -t -pAQUI_DEFINA_A_PORTA_DESEJADA:5432 -ePOSTGRES_PASSWORD=12345 postgres:latest
-			```
+		- Caso a porta utilizada no comando já esteja sendo utilizada em seu computador, basta mudar no comando acima e rodar novamente
 		&nbsp;
 		&nbsp;
 
@@ -110,8 +110,19 @@ Com ele instalado, rodar os seguintes comandos:
 			```
 			docker system prune
 			```
+			- #### Obs:. Este comando remova todos os contêineres, redes, imagens (tanto pendentes quanto não referenciados) não utilizados e, opcionalmente, volumes, caso tenha algo dentro destes requisítos que não deseja excluir, não é recomendado executar este passo.
+			&nbsp;
 
-		- #### Obs:. Este comando remova todos os contêineres, redes, imagens (tanto pendentes quanto não referenciados) não utilizados e, opcionalmente, volumes, caso tenha algo dentro destes requisítos que não deseja excluir, não é recomendado executar este passo.
+		&nbsp;
+
+		- Caso modifique esta informação de porta, também é necessário muda-la no arquivo Dockerfile:
+		&nbsp;
+
+			```
+			PORT_DATABASE "ATRIBUA A PORTA QUE COLOCOU NO COMANDO PARA SUBIR O POSTGRES"
+			```
+
+* **Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres também necessitará de alterações.**
 &nbsp;
 
 - Passo 2:
@@ -122,17 +133,33 @@ Com ele instalado, rodar os seguintes comandos:
 		&nbsp;
 
 		- Este comando irá gerar a imagem docker do script para execução com o nome ```importador_dados```
-	&nbsp;
-
-		- Caso modifique esta informação, também é necessário muda-la no arquivo Dockerfile:
+		&nbsp;
 		&nbsp;
 
-			```
-			PORT_DATABASE "ATRIBUA A PORTA QUE COLOCOU NO COMANDO PARA SUBIR O POSTGRES"
-			```
+	- E Após gerar a imgaem do script basta executar um run:
 	&nbsp;
 
-* **Bônus: Se abrir o Dockerfile, verá que é nele que estão sendo declaradas as variáveis de ambiente, onde alí, também é possivel mudar host, usuário e demais informações de parâmetros do banco, porém, sempre lembre de que se modificar algumas destas variáveis, também é necessário validar se o comando em que sobe a imagem do postgres no arquivo executável também necessitará de alterações.**
+		```docker run --rm --name importador_dados_container importador_dados```
+	&nbsp;
+	&nbsp;
+
+# Rodar projeto local
+Após criar o ambiente virtual você deve instalar as dependências em seu ambiente virtual:
+
+    $ pip install -r src/requirements.txt
+
+Após instalar as dependências você pode rodar a aplicação
+(variáveis de ambiente estão dentro do arquivo Dockerfile):
+
+    $ python src/main.py
+&nbsp;
+
+## Testes Unitários
+
+Apesar do script não possuir uma step para rodar os testes unitários pelo docker, é possivel roda-los localmente no ambiente virtual
+
+	$ pytest --cov .
+&nbsp;
 &nbsp;
 
 Então ao final da execução, terá uma mensagem de que a **Importação dos dados do arquivo foi finalizada com sucesso!**

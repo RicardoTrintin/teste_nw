@@ -1,2 +1,5 @@
 psycopg2
 validate_docbr
+pyteste
+pytest
+pytest-cov
