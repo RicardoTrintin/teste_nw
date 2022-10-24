@@ -5,8 +5,11 @@ from utils.exceptions import ImportDataException, QueryException, VariableAmbien
 
 def executar_rotina():
     try:
-        EstruturaBanco().criar_estrutura()
-        Executar().roda_script()
+        try:
+            EstruturaBanco().criar_estrutura()
+            Executar().roda_script()
+        except QueryException as e:
+            Executar().roda_script()
     except ImportDataException as e:
         raise ImportDataException(e)
     except QueryException as e:
