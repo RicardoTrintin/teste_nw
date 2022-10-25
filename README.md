@@ -68,7 +68,7 @@ CREATE INDEX loja_ultima_compra_index on resumo_pedido_cliente (loja_ultima_comp
 
 Antes de proseguir, é preciso que o arquivo base_teste.txt esteja dentro do diretório **src/features/importar_dados/arquivos**.
 
-#### Obs:. Sem o arquivo não estiver neste local, após rodar os próximos passos, teremos um retorno de erro de que nao é possível importar os dados, pois o arquivo de texto como base não foi encontrado.**
+#### Obs:. Sem o arquivo não estiver neste local, após rodar os próximos passos, teremos um retorno de erro de que nao é possível importar os dados, pois o arquivo de texto como base não foi encontrado.
 &nbsp;
 
 Também é necessário que o Docker esteja instalado em seu computador.
@@ -129,7 +129,9 @@ Com ele instalado, rodar os seguintes comandos:
 	- Se posicione dentro da pasta src do projeto e rode o seguinte comando:
 	&nbsp;
 
-		```docker build -t importador_dados .```
+		```
+		docker build -t importador_dados .
+		```
 		&nbsp;
 
 		- Este comando irá gerar a imagem docker do script para execução com o nome ```importador_dados```
@@ -139,7 +141,10 @@ Com ele instalado, rodar os seguintes comandos:
 	- E após gerar a imgaem do script basta executar um run:
 	&nbsp;
 
-		```docker run --rm --name importador_dados_container importador_dados```
+		```
+		docker run --rm --add-host=host.docker.internal:host-gateway --name importador_dados_container importador_dados
+		```
+		- O parâmetro ```--add-host=host.docker.internal:host-gateway``` está sendo utilizado para vincular a rede do container em que está subindo com outro especifico, no nosso caso, o dns **host.docker.internal** que é o do container do banco postgres que subimos, pois no windows o redirecionamento já é feito automático, mas no linux temos de expecificar diretamente.
 &nbsp;
 
 # Rodar projeto local
